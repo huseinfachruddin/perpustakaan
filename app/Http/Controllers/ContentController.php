@@ -8,8 +8,7 @@ use App\Models\Content;
 class ContentController extends Controller
 {
     public function getContent(){
-        $data = Content::orderBy('id','desc')->get();
-
+        $data = Content::orderBy('id','desc')->paginate(10);
         $response = [
             'success'=>true,
             'content'=>$data,
@@ -35,7 +34,8 @@ class ContentController extends Controller
         ]);
 
         $data = Content::where('name','like',"%".$request->search."%")
-        ->orWhere('desc','like',"%".$request->search."%")->get();
+        ->orWhere('desc','like',"%".$request->search."%")
+        ->paginate(10);
 
         $response = [
             'success'=>true,
