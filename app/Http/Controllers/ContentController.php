@@ -8,7 +8,20 @@ use App\Models\Content;
 class ContentController extends Controller
 {
     public function getContent(){
-        $data = Content::orderBy('id','desc')->paginate(10);
+        $data = Content::with('category')->orderBy('id','desc')->paginate(10);
+        $response = [
+            'success'=>true,
+            'content'=>$data,
+        ];
+        
+        return response($response,200);
+    }
+
+    public function getContentCategory(Request $request){
+        $data = Content::with('category')->whereHas('category', function($category) use($request) {
+            $category->where('categories.id', $request->id);
+        })->orderBy('id','desc')->paginate(10);
+
         $response = [
             'success'=>true,
             'content'=>$data,
@@ -50,6 +63,8 @@ class ContentController extends Controller
             'name' =>'required',
             'desc'  =>'nullable',
             'link'  =>'required',
+            'category'  =>'required',
+
         ]);
 
         $data = new Content;
@@ -58,9 +73,14 @@ class ContentController extends Controller
         $data->link = $request->link;
         $data->save();
 
+        $category = $request->category;
+
+        foreach ($category as $key => $value) {
+            $data->category()->attach($value['id']);
+        }
         $response = [
             'success'=>true,
-            'content'=>$data,
+            'content'=>$request->category,
         ];
         
         return response($response,200);
