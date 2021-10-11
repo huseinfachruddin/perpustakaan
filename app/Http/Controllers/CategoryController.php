@@ -47,7 +47,7 @@ class CategoryController extends Controller
     }
 
     public function detailCategory(Request $request){
-        $data = Category::find($request->id);
+        $data = Category::where('id',$request->id)->get();
 
         $response = [
             'success'=>true,
