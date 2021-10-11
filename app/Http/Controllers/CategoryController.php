@@ -27,7 +27,7 @@ class CategoryController extends Controller
     }
 
     public function getCategoryNotHeader(){
-        $data = Category::where('isheader',false)->orderBy('id','desc')->get();
+        $data = Category::where('isheader',null)->orWhere('isheader',false)->orderBy('id','desc')->get();
         $response = [
             'success'=>true,
             'category'=>$data,
