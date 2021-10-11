@@ -17,7 +17,7 @@ class CategoryController extends Controller
         return response($response,200);
     }
     public function getCategoryHeader(){
-        $data = Category::where('isHeader',true)->orderBy('id','desc')->get();
+        $data = Category::where('isheader',true)->orderBy('id','desc')->get();
         $response = [
             'success'=>true,
             'category'=>$data,
@@ -27,7 +27,7 @@ class CategoryController extends Controller
     }
 
     public function getCategoryNotHeader(){
-        $data = Category::where('isHeader',false)->orderBy('id','desc')->get();
+        $data = Category::where('isheader',false)->orderBy('id','desc')->get();
         $response = [
             'success'=>true,
             'category'=>$data,
@@ -82,7 +82,7 @@ class CategoryController extends Controller
         $request->validate([
             'name' =>'required',
             'parent'  =>'nullable',
-            'isHeader'  =>'nullable',
+            'isheader'  =>'nullable',
 
         ]);
 
