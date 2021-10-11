@@ -17,7 +17,7 @@ class CategoryController extends Controller
         return response($response,200);
     }
     public function getCategoryHeader(){
-        $data = Category::where('isheader',true)->orderBy('id','desc')->get();
+        $data = Category::where('isheader','=',true)->orderBy('id','desc')->get();
         $response = [
             'success'=>true,
             'category'=>$data,
@@ -27,7 +27,7 @@ class CategoryController extends Controller
     }
 
     public function getCategoryNotHeader(){
-        $data = Category::where('isheader',false)->orderBy('id','desc')->get();
+        $data = Category::where('isheader','=',false)->orderBy('id','desc')->get();
         $response = [
             'success'=>true,
             'category'=>$data,
@@ -37,7 +37,7 @@ class CategoryController extends Controller
     }
 
     public function getCategoryTree(){
-        $data = Category::with(str_repeat('children.',10))->where('parent',null)->orderBy('id','asc')->get();
+        $data = Category::with(str_repeat('children.',10))->whereNull('parent')->orderBy('id','asc')->get();
         $response = [
             'success'=>true,
             'category'=>$data,
