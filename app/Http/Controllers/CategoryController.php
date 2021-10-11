@@ -37,7 +37,7 @@ class CategoryController extends Controller
     }
 
     public function getCategoryTree(){
-        $data = Category::with(str_repeat('children.',10))->whereNull('parent')->orderBy('id','asc')->get();
+        $data = Category::with(str_repeat('children.',10))->orderBy('id','asc')->get();
         $response = [
             'success'=>true,
             'category'=>$data,
